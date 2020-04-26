@@ -1,0 +1,2 @@
+[{"action":"subscribe","channel":"balances"},
+  {"token": "API_SECRET", "action": "subscribe", "channel": "auth"}]

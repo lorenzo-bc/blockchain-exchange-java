@@ -1,0 +1,4 @@
+[
+  {"seqnum":0,"event":"rejected","channel":"balances","text":"Not authenticated"},
+  {"seqnum":0,"event":"rejected","channel":"auth","text":"Authentication failed"}
+]
