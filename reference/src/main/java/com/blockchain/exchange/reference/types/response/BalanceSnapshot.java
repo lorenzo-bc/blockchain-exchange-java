@@ -1,4 +1,10 @@
-package com.blockchain.exchange.reference.types;
+package com.blockchain.exchange.reference.types.response;
+
+import com.blockchain.exchange.reference.types.Action;
+import com.blockchain.exchange.reference.types.Channel;
+import com.blockchain.exchange.reference.types.Event;
+import com.blockchain.exchange.reference.types.response.Response;
+import com.blockchain.exchange.reference.types.response.SingleCurrencyBalance;
 
 import java.util.List;
 
@@ -91,7 +97,7 @@ public class BalanceSnapshot extends Response {
             Double total_available_local,
             Double total_balance_local
     ) {
-        super(seqnum, event, channel);
+        super(seqnum, event, channel, null);
         this.balances = balances;
         this.total_available_local = total_available_local;
         this.total_balance_local = total_balance_local;

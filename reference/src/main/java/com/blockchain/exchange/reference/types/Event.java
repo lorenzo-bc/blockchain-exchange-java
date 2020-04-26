@@ -4,5 +4,6 @@ public enum Event {
     subscribed,
     unsubscribed,
     rejected,
-    snapshot;
+    snapshot,
+    updated;
 }

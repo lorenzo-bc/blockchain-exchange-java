@@ -1,4 +1,4 @@
-package com.blockchain.exchange.reference.types;
+package com.blockchain.exchange.reference.types.request;
 
 import com.blockchain.exchange.utils.Utils;
 

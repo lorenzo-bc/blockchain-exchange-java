@@ -1,4 +1,4 @@
-package com.blockchain.exchange.reference.types;
+package com.blockchain.exchange.reference.types.response;
 
 /**
  *  {

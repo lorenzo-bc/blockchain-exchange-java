@@ -1,10 +1,7 @@
 package com.blockchain.exchange.reference.base;
-import com.blockchain.exchange.reference.types.Event;
-import com.blockchain.exchange.reference.types.MarketDataL2Request;
-import com.blockchain.exchange.reference.types.Request;
-import com.blockchain.exchange.reference.types.Response;
+import com.blockchain.exchange.reference.types.request.Request;
+import com.blockchain.exchange.reference.types.response.Response;
 import com.blockchain.exchange.utils.Utils;
-import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 
 import java.net.URI;
@@ -87,11 +84,11 @@ public class WebsocketClientEndpoint extends Endpoint implements MessageHandler.
      */
     @Override
     public void onMessage(String message) {
-        System.out.printf("Got2 %s\n", message);
+//        System.out.printf("Got2 %s\n", message);
         System.out.println(message);
         JsonObject e = Utils.gson().fromJson(message, JsonObject.class);
         Response response = Utils.gson().fromJson(e, Response.class);
-        System.out.printf("deserialized response %s\n", response);
+//        System.out.printf("deserialized response %s\n", response);
         switch (response.event) {
             case subscribed: onSubscribed(e, response);
                 break;
@@ -100,6 +97,8 @@ public class WebsocketClientEndpoint extends Endpoint implements MessageHandler.
             case rejected: onRejected(e, response);
                 break;
             case snapshot: onSnapshot(e, response);
+                break;
+            case updated: onUpdate(e, response);
                 break;
         }
     }
@@ -117,6 +116,10 @@ public class WebsocketClientEndpoint extends Endpoint implements MessageHandler.
     }
 
     public void onSnapshot(JsonObject message, Response response) {
+
+    }
+
+    public void onUpdate(JsonObject message, Response response) {
 
     }
 

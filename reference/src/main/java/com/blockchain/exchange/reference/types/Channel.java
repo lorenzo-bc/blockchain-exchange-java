@@ -4,5 +4,6 @@ public enum Channel {
     heartbeat,
     l2,
     balances,
-    auth;
+    auth,
+    symbols;
 }

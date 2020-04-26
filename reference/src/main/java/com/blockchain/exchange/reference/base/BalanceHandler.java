@@ -1,13 +1,14 @@
 package com.blockchain.exchange.reference.base;
 
-import com.blockchain.exchange.reference.types.*;
+import com.blockchain.exchange.reference.types.request.BalanceRequest;
+import com.blockchain.exchange.reference.types.request.Request;
+import com.blockchain.exchange.reference.types.response.BalanceSnapshot;
+import com.blockchain.exchange.reference.types.response.Response;
+import com.blockchain.exchange.reference.types.response.SingleCurrencyBalance;
 import com.blockchain.exchange.utils.Utils;
 import com.google.gson.JsonObject;
 
-import javax.websocket.EndpointConfig;
-import javax.websocket.Session;
 import java.net.URI;
-import java.util.Iterator;
 
 public class BalanceHandler extends AuthenticatedWebsocketClient {
 

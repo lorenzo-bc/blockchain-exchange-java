@@ -1,4 +1,8 @@
-package com.blockchain.exchange.reference.types;
+package com.blockchain.exchange.reference.types.request;
+
+import com.blockchain.exchange.reference.types.Action;
+import com.blockchain.exchange.reference.types.Channel;
+import com.blockchain.exchange.reference.types.request.Request;
 
 /**
  * {

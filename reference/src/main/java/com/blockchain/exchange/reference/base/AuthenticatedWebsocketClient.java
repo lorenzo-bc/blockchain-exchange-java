@@ -1,8 +1,9 @@
 package com.blockchain.exchange.reference.base;
 
 import com.blockchain.exchange.reference.types.*;
-import com.blockchain.exchange.utils.Utils;
-import com.google.gson.JsonElement;
+import com.blockchain.exchange.reference.types.request.AuthRequest;
+import com.blockchain.exchange.reference.types.request.Request;
+import com.blockchain.exchange.reference.types.response.Response;
 import com.google.gson.JsonObject;
 
 import javax.websocket.EndpointConfig;
