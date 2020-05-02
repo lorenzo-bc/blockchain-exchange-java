@@ -5,6 +5,8 @@ public enum Channel {
     l2,
     l3,
     prices,
+    ticker,
+    trades,
     balances,
     auth,
     symbols;

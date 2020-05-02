@@ -5,6 +5,7 @@ import com.blockchain.exchange.reference.types.request.SymbolsRequest;
 import com.blockchain.exchange.reference.types.response.Response;
 import com.blockchain.exchange.reference.types.response.SymbolSpecification;
 import com.blockchain.exchange.reference.types.response.SymbolsSnapshot;
+import com.blockchain.exchange.reference.types.response.SymbolsUpdate;
 import com.blockchain.exchange.utils.Utils;
 import com.google.gson.JsonObject;
 
@@ -45,6 +46,7 @@ public class SymbolsModule extends WebsocketClientEndpoint {
             SymbolSpecification v = symbol.getValue();
             Double priceIncrement = v.min_price_increment * Math.pow (10, -v.min_price_increment_scale);
             Double minOrderSize = v.min_order_size * Math.pow (10, -v.min_order_size_scale);
+            // 0 means no limit
             Double maxOrderSize = v.max_order_size * Math.pow (10, -v.max_order_size_scale);
             System.out.printf("%s: status %s, priceIncrement %f, minOrderSize %f, maxOrderSize %f\n",
                     symbol.getKey(),
@@ -53,5 +55,26 @@ public class SymbolsModule extends WebsocketClientEndpoint {
                     minOrderSize,
                     maxOrderSize);
         }
+    }
+
+    @Override
+    public void onUpdate(JsonObject message, Response response) {
+        super.onUpdate(message, response);
+        SymbolsUpdate symbolsUpdate = Utils.gson().fromJson(message, SymbolsUpdate.class);
+        onSymbolsUpdate(symbolsUpdate, message);
+    }
+
+    public void onSymbolsUpdate(SymbolsUpdate symbolsUpdate, JsonObject message) {
+        SymbolSpecification v = Utils.gson().fromJson(message, SymbolSpecification.class);
+        Double priceIncrement = v.min_price_increment * Math.pow (10, -v.min_price_increment_scale);
+        Double minOrderSize = v.min_order_size * Math.pow (10, -v.min_order_size_scale);
+        // 0 means no limit
+        Double maxOrderSize = v.max_order_size * Math.pow (10, -v.max_order_size_scale);
+        System.out.printf("%s: status %s, priceIncrement %f, minOrderSize %f, maxOrderSize %f\n",
+                symbolsUpdate.symbol,
+                v.status,
+                priceIncrement,
+                minOrderSize,
+                maxOrderSize);
     }
 }

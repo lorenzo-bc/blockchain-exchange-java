@@ -11,14 +11,18 @@ public class Main {
 
 //        BalanceModule balanceHandler = new BalanceModule(new URI("wss://ws.prod.blockchain.info/mercury-gateway/v1/ws"), token);
 //        balanceHandler.start();
-//        SymbolsModule symbolsHandler = new SymbolsModule(new URI("wss://ws.prod.blockchain.info/mercury-gateway/v1/ws"));
-//        symbolsHandler.start();
+          SymbolsModule symbolsHandler = new SymbolsModule(new URI("wss://ws.prod.blockchain.info/mercury-gateway/v1/ws"));
+          symbolsHandler.start();
 //        MarketDataL2Module marketDataL2 = new MarketDataL2Module(new URI("wss://ws.prod.blockchain.info/mercury-gateway/v1/ws"));
 //        marketDataL2.start( "BTC-USD");
 //        MarketDataL3Module marketDataL3 = new MarketDataL3Module(new URI("wss://ws.prod.blockchain.info/mercury-gateway/v1/ws"));
 //        marketDataL3.start( "BTC-USD");
 //        CandlesModule candles = new CandlesModule(new URI("wss://ws.prod.blockchain.info/mercury-gateway/v1/ws"));
 //        candles.start(60);
+//        TickerModule ticker = new TickerModule(new URI("wss://ws.prod.blockchain.info/mercury-gateway/v1/ws"));
+//        ticker.start(Arrays.asList("DGLD-USD", "ETH-BTC", "BTC-TRY"));
+//        TradesModule trades = new TradesModule(new URI("wss://ws.prod.blockchain.info/mercury-gateway/v1/ws"));
+//        trades.start(Arrays.asList("ETH-BTC", "ETH-USD", "XLM-USD", "BTC-TRY"));
 
         Runnable r = () -> {
             while (true) {
