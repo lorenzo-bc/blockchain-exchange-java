@@ -84,7 +84,6 @@ public class WebsocketClientEndpoint extends Endpoint implements MessageHandler.
      */
     @Override
     public void onMessage(String message) {
-//        System.out.printf("Got2 %s\n", message);
         System.out.println(message);
         JsonObject e = Utils.gson().fromJson(message, JsonObject.class);
         Response response = Utils.gson().fromJson(e, Response.class);

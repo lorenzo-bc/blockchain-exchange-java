@@ -16,20 +16,23 @@ import java.net.URI;
 /**
  * https://exchange.blockchain.com/api/?code#l2-order-book
  */
-public class MarketDataL2 extends WebsocketClientEndpoint {
+public class MarketDataL2Module extends WebsocketClientEndpoint {
 
-    public MarketDataL2(URI endpointURI) {
+    private String symbol = "BTC-USD";
+
+    public MarketDataL2Module(URI endpointURI) {
         super(endpointURI);
     }
 
-    public void start() {
+    public void start(String symbol) {
+        this.symbol = symbol;
         connect();
     }
 
     @Override
     public void onOpen(Session session, EndpointConfig config) {
         super.onOpen(session, config);
-        Request request = new MarketDataL2Request("BTC-USD");
+        Request request = new MarketDataL2Request(symbol);
         System.out.printf("request %s\n", request);
         sendMessage(request);
     }
@@ -44,13 +47,13 @@ public class MarketDataL2 extends WebsocketClientEndpoint {
     public void onMarketDataSnapShot(MarketDataL2Snapshot marketDataSnapshot) {
         Double bestAsk = null;
         if (marketDataSnapshot.asks.size() > 0) {
-            bestAsk = marketDataSnapshot.asks.get(marketDataSnapshot.asks.size() -1).px;
+            bestAsk = marketDataSnapshot.asks.get(0).px;
         }
         Double bestBid = null;
         if (marketDataSnapshot.bids.size() > 0) {
-            bestBid = marketDataSnapshot.bids.get(0).px;
+            bestBid = marketDataSnapshot.bids.get(marketDataSnapshot.bids.size() -1).px;
         }
-        System.out.printf("%s price is %f - %f\n",marketDataSnapshot.symbol, bestBid, bestAsk);
+        System.out.printf("%s best price is %f - %f\n",marketDataSnapshot.symbol, bestBid, bestAsk);
     }
 
     @Override

@@ -10,9 +10,12 @@ import com.google.gson.JsonObject;
 
 import java.net.URI;
 
-public class BalanceHandler extends AuthenticatedWebsocketClient {
+/**
+ * https://exchange.blockchain.com/api/#balances
+ */
+public class BalanceModule extends AuthenticatedWebsocketClient {
 
-    public BalanceHandler(URI endpointURI, String token) {
+    public BalanceModule(URI endpointURI, String token) {
         super(endpointURI, token);
     }
 

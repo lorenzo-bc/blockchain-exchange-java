@@ -16,9 +16,9 @@ import java.util.Map;
 /**
  * https://exchange.blockchain.com/api/?code#symbols
  */
-public class SymbolsHandler extends WebsocketClientEndpoint {
+public class SymbolsModule extends WebsocketClientEndpoint {
 
-    public SymbolsHandler(URI endpointURI) {
+    public SymbolsModule(URI endpointURI) {
         super(endpointURI);
     }
 

@@ -1,7 +1,5 @@
 package com.blockchain.exchange.reference;
-import com.blockchain.exchange.reference.base.BalanceHandler;
-import com.blockchain.exchange.reference.base.MarketDataL2;
-import com.blockchain.exchange.reference.base.SymbolsHandler;
+import com.blockchain.exchange.reference.base.*;
 
 import java.net.URI;
 import java.net.URISyntaxException;
@@ -9,19 +7,29 @@ import java.net.URISyntaxException;
 public class Main {
 
     public static void main(String[] args) throws URISyntaxException, InterruptedException {
-        String token = "";
+//        String token = "ADD YOUR TOKEN HERE";
 
-        BalanceHandler balanceHandler = new BalanceHandler(new URI("wss://ws.prod.blockchain.info/mercury-gateway/v1/ws"), token);
-        balanceHandler.start();
+//        BalanceModule balanceHandler = new BalanceModule(new URI("wss://ws.prod.blockchain.info/mercury-gateway/v1/ws"), token);
+//        balanceHandler.start();
+//        SymbolsModule symbolsHandler = new SymbolsModule(new URI("wss://ws.prod.blockchain.info/mercury-gateway/v1/ws"));
+//        symbolsHandler.start();
+//        MarketDataL2Module marketDataL2 = new MarketDataL2Module(new URI("wss://ws.prod.blockchain.info/mercury-gateway/v1/ws"));
+//        marketDataL2.start( "BTC-USD");
+//        MarketDataL3Module marketDataL3 = new MarketDataL3Module(new URI("wss://ws.prod.blockchain.info/mercury-gateway/v1/ws"));
+//        marketDataL3.start( "BTC-USD");
+//        CandlesModule candles = new CandlesModule(new URI("wss://ws.prod.blockchain.info/mercury-gateway/v1/ws"));
+//        candles.start(60);
 
-        SymbolsHandler symbolsHandler = new SymbolsHandler(new URI("wss://ws.prod.blockchain.info/mercury-gateway/v1/ws"));
-        symbolsHandler.start();
-
-        MarketDataL2 marketDataL2 = new MarketDataL2(new URI("wss://ws.prod.blockchain.info/mercury-gateway/v1/ws"));
-        marketDataL2.start();
-
-        for (int i = 0; i< 300; i++){
-            Thread.sleep(1000);
-        }
+        Runnable r = () -> {
+            while (true) {
+                try {
+                    Thread.sleep(1000);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+            }
+        };
+        Thread t = new Thread(r);
+        t.start();
     }
 }
