@@ -1,5 +1,6 @@
 package com.blockchain.exchange.reference;
 import com.blockchain.exchange.reference.base.*;
+import com.blockchain.exchange.reference.impl.TradingLogic;
 
 import java.net.URI;
 import java.net.URISyntaxException;
@@ -23,6 +24,11 @@ public class Main {
 //        ticker.start(Arrays.asList("DGLD-USD", "ETH-BTC", "BTC-TRY"));
 //        TradesModule trades = new TradesModule(new URI("wss://ws.prod.blockchain.info/mercury-gateway/v1/ws"));
 //        trades.start(Arrays.asList("ETH-BTC", "ETH-USD", "XLM-USD", "BTC-TRY"));
+
+        TradingModule tradingHandler = new TradingModule(new URI("wss://ws.prod.blockchain.info/mercury-gateway/v1/ws"), token);
+        TradingLogic tradingLogic = new TradingLogic(tradingHandler);
+        tradingHandler.addCallback(tradingLogic);
+        tradingHandler.start();
 
         Runnable r = () -> {
             while (true) {

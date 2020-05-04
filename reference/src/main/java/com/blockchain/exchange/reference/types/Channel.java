@@ -8,6 +8,7 @@ public enum Channel {
     ticker,
     trades,
     balances,
+    trading,
     auth,
     symbols;
 }
