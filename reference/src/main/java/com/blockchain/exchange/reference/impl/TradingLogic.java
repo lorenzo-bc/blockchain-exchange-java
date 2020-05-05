@@ -115,6 +115,11 @@ public class TradingLogic implements TradingCallback, MarketDataL2Callback {
     }
 
     @Override
+    public void onL2Disconnected() {
+
+    }
+
+    @Override
     public void onSnapshot(MarketDataL2Snapshot l2Snapshot) {
         // Pass
     }

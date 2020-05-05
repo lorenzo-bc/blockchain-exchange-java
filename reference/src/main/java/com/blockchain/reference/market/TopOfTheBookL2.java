@@ -10,4 +10,12 @@ public class TopOfTheBookL2 {
         this.bid = bid;
         this.ask = ask;
     }
+
+    @Override
+    public String toString() {
+        return String.format(
+                "BID %f@%s , ASK %f@%f",
+                bid.qty, bid.px, ask.qty, ask.px
+        );
+    }
 }

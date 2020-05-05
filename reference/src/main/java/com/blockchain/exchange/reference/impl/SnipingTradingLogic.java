@@ -19,13 +19,14 @@ public class SnipingTradingLogic implements TradingCallback, MarketDataL2Callbac
     private TradingModule tradingHandler;
     private MarketDataL2Module marketDataL2Module;
 
-    private String symbol = "BTC-GBP";
-    private MarketDepthL2 orderbook;
+    private String symbol = "BTC-USD";
+    private MarketDepthL2 orderbook = new MarketDepthL2();
     private MarketDataL2Level currentBid;
     private MarketDataL2Level previousBid;
     private MarketDataL2Level currentAsk;
     private MarketDataL2Level previousAsk;
 
+    // Sell if the price move 10% up, or buy if it moves 10% down
     private double priceThreshold = 0.1;
     private double maxOrdersize = 0.01;
 
@@ -37,30 +38,17 @@ public class SnipingTradingLogic implements TradingCallback, MarketDataL2Callbac
         this.marketDataL2Module = marketDataL2Module;
     }
 
+    public void start() {
+        tradingHandler.start();
+        marketDataL2Module.start();
+    }
+
     public void onTradingSubscribed() {
 
     }
 
     public void onAuthenticated() {
-        String clOrderId1 = UUID.randomUUID().toString().substring(0, 20);
-        tradingHandler.placeLimitOrder(
-                clOrderId1,
-                "BTC-USD",
-                Tif.GTC,
-                Side.sell,
-                0.0001,
-                120.0,
-                true,
-                null
-        );
-        System.out.printf("Placing limit order %s", clOrderId1);
-        tradingHandler.cancelAllOrders(null);
 
-        // now place a market order
-        String clOrderId2 = UUID.randomUUID().toString().substring(0, 20);
-
-        System.out.printf("Placing market order %s", clOrderId2);
-        tradingHandler.placeMarketOrder(clOrderId2, "BTC-USD", Side.buy, 0.001);
     }
 
     @Override
@@ -134,7 +122,7 @@ public class SnipingTradingLogic implements TradingCallback, MarketDataL2Callbac
 
     @Override
     public void onL2Connected() {
-
+        marketDataL2Module.subscribe(symbol);
     }
 
     @Override
@@ -171,23 +159,36 @@ public class SnipingTradingLogic implements TradingCallback, MarketDataL2Callbac
         if (currentBid == null || currentAsk == null || previousBid == null || previousAsk == null) {
             return;
         }
+        if (currentBid == previousBid && currentAsk == previousAsk) {
+            return;
+        }
+
+        System.out.printf("TOB is %s\n",orderbook.getTopOfTheBook());
 
         /*
-         * If the ask get 10% better in one single tick we take that price with a market order
+         * If the ask get 10% lower in one single tick we buy at that price with a market order
          */
-        if (currentAsk.px < priceThreshold * previousAsk.px) {
+        if (currentAsk.px < (1.0-priceThreshold) * previousAsk.px) {
             String clOrderId = UUID.randomUUID().toString().substring(0, 20);
             double quantity = Math.min(maxOrdersize, currentAsk.px);
+            System.out.printf("PLACING ORDER %s: %s %f@%f\n",clOrderId, Side.buy.name(), quantity, currentAsk.px);
             tradingHandler.placeMarketOrder(clOrderId, symbol, Side.buy, quantity);
+        } else {
+            double move = currentAsk.px / previousAsk.px;
+            System.out.printf("Bid move was only %f\n", move);
         }
 
         /*
-         * If the bid get 10% better in one single tick we take that price with a market order
+         * If the bid get 10% higher in one single tick we sell at that price with a market order
          */
-        if (currentBid.px > priceThreshold * previousBid.px) {
+        if (currentBid.px > (1.0+priceThreshold) * previousBid.px) {
             String clOrderId = UUID.randomUUID().toString().substring(0, 20);
-            double quantity = Math.min(maxOrdersize, currentAsk.px);
+            double quantity = Math.min(maxOrdersize, currentBid.px);
+            System.out.printf("PLACING ORDER %s: %s %f@%f\n",clOrderId, Side.sell.name(), quantity, currentBid.px);
             tradingHandler.placeMarketOrder(clOrderId, symbol, Side.sell, quantity);
+        } else {
+            double move = currentAsk.px / previousAsk.px;
+            System.out.printf("Ask move was only %f\n", move);
         }
     }
 }
