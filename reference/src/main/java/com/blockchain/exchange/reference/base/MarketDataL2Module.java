@@ -9,6 +9,7 @@ import com.blockchain.exchange.reference.types.response.Response;
 import com.blockchain.exchange.utils.Utils;
 import com.google.gson.JsonObject;
 
+import javax.websocket.CloseReason;
 import javax.websocket.EndpointConfig;
 import javax.websocket.Session;
 import java.net.URI;
@@ -43,6 +44,14 @@ public class MarketDataL2Module extends WebsocketClientEndpoint {
         super.onOpen(session, config);
         if (callback != null) {
             callback.onL2Connected();
+        }
+    }
+
+    @Override
+    public void onClose(Session userSession, CloseReason reason) {
+        super.onClose(userSession, reason);
+        if (callback != null) {
+            callback.onL2Disconnected();
         }
     }
 

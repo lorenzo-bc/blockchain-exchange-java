@@ -40,7 +40,7 @@ public class TradingModule extends AuthenticatedWebsocketClient {
         super.onSubscribed(message, response);
         if (response.channel == Channel.trading) {
             isSubscribed = true;
-            callbacks.onSubscribed();
+            callbacks.onTradingSubscribed();
         }
     }
 

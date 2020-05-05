@@ -44,7 +44,28 @@ public class MarketDepthL2 {
         askDepthItems.addAll(update.asks);
     }
 
+    public void invalidate() {
+        bidDepthItems.clear();
+        askDepthItems.clear();
+    }
+
     public TopOfTheBookL2 getTopOfTheBook() {
         return new TopOfTheBookL2(bidDepthItems.first(), askDepthItems.first());
+    }
+
+    public Double totalBidVolume() {
+        Double volume = 0.0;
+        for( MarketDataL2Level l :  bidDepthItems) {
+            volume += l.qty;
+        }
+        return volume;
+    }
+
+    public Double totalAskVolume() {
+        Double volume = 0.0;
+        for( MarketDataL2Level l :  askDepthItems) {
+            volume += l.qty;
+        }
+        return volume;
     }
 }

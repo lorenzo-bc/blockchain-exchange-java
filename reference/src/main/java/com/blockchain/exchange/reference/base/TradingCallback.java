@@ -6,7 +6,7 @@ import com.blockchain.exchange.reference.types.response.TradingSnapshot;
 
 public interface TradingCallback {
 
-    void onSubscribed();
+    void onTradingSubscribed();
 
     void onAuthenticated();
 
