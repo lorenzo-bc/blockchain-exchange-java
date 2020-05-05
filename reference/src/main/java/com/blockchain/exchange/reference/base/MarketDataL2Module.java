@@ -18,29 +18,41 @@ import java.net.URI;
  */
 public class MarketDataL2Module extends WebsocketClientEndpoint {
 
-    private String symbol = "BTC-USD";
+    private MarketDataL2Callback callback;
 
     public MarketDataL2Module(URI endpointURI) {
         super(endpointURI);
     }
 
-    public void start(String symbol) {
-        this.symbol = symbol;
+    public void start() {
         connect();
     }
 
-    @Override
-    public void onOpen(Session session, EndpointConfig config) {
-        super.onOpen(session, config);
+    public void addCallback(MarketDataL2Callback callback) {
+        this.callback = callback;
+    }
+
+    public void subscribe(String symbol) {
         Request request = new MarketDataL2Request(symbol);
         System.out.printf("request %s\n", request);
         sendMessage(request);
     }
 
     @Override
+    public void onOpen(Session session, EndpointConfig config) {
+        super.onOpen(session, config);
+        if (callback != null) {
+            callback.onL2Connected();
+        }
+    }
+
+    @Override
     public void onSnapshot(JsonObject message, Response response) {
         super.onSnapshot(message, response);
         MarketDataL2Snapshot marketDataSnapshot = Utils.gson().fromJson(message, MarketDataL2Snapshot.class);
+        if (callback != null) {
+            callback.onSnapshot(marketDataSnapshot);
+        }
         onMarketDataSnapShot(marketDataSnapshot);
     }
 
@@ -61,9 +73,8 @@ public class MarketDataL2Module extends WebsocketClientEndpoint {
         super.onUpdate(message, response);
 
         MarketDataL2Update marketDataUpdate = Utils.gson().fromJson(message, MarketDataL2Update.class);
-        onMarketDataUpdate(marketDataUpdate);
-    }
-
-    public void onMarketDataUpdate(MarketDataL2Update marketDataUpdate) {
+        if (callback != null) {
+            callback.onUpdate(marketDataUpdate);
+        }
     }
 }

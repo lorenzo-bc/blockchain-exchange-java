@@ -1,12 +1,13 @@
 package com.blockchain.exchange.reference.impl;
 
+import com.blockchain.exchange.reference.base.MarketDataL2Callback;
 import com.blockchain.exchange.reference.base.TradingCallback;
 import com.blockchain.exchange.reference.base.TradingModule;
 import com.blockchain.exchange.reference.types.response.*;
 
 import java.util.UUID;
 
-public class TradingLogic implements TradingCallback {
+public class TradingLogic implements TradingCallback, MarketDataL2Callback {
     private TradingModule tradingHandler;
 
     public TradingLogic(TradingModule tradingHandler) {
@@ -106,5 +107,20 @@ public class TradingLogic implements TradingCallback {
 
     private void onOrderPending(OrderUpdate orderUpdate) {
 
+    }
+
+    @Override
+    public void onL2Connected() {
+
+    }
+
+    @Override
+    public void onSnapshot(MarketDataL2Snapshot l2Snapshot) {
+        // Pass
+    }
+
+    @Override
+    public void onUpdate(MarketDataL2Update l2Update) {
+        // pass
     }
 }
